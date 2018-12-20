@@ -19,7 +19,7 @@ platforms:
     driver:
       image: alpine:latest
       env:
-        - FOO=BAR
+        - FOO=BAR2
       tmpfs:
         /tmp: rw,noexec,nosuid,nodev,size=65536k
     provisioner:
