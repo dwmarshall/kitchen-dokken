@@ -5,6 +5,9 @@ group: edge
 dist: xenial
 os: linux
 language: ruby
+git:
+  depth: false
+  quiet: true
 
 services: docker
 
