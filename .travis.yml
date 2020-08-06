@@ -1,8 +1,10 @@
 rvm:
   - 2.5.1
 cache: bundler
-sudo: required
 group: edge
+dist: xenial
+os: linux
+language: ruby
 
 services: docker
 
@@ -20,15 +22,15 @@ env:
     - CHEF_LICENSE="accept-no-persist"
 
 before_install:
-  - add-apt-repository ppa:projectatomic/ppa -y
-  - apt-get -qq update
-  - apt-get install -y nmap
-  - apt-get install -y podman
+  - sudo add-apt-repository ppa:projectatomic/ppa -y
+  - sudo apt-get -qq update
+  - sudo apt-get install -y nmap
+  - sudo apt-get install -y podman
 
 before_script:
- - nmap -p- localhost
- - iptables -S
- - iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
+ - sudo nmap -p- localhost
+ - sudo iptables -S
+ - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
  - docker run --privileged -d -p 4444:4444 -e PORT=4444 jpetazzo/dind
 
 script:
@@ -36,8 +38,8 @@ script:
   - time bundle exec kitchen test ${INSTANCE} -l debug
 
 after_script: |
-  nmap -p- localhost
-  iptables -S
+  sudo nmap -p- localhost
+  sudo iptables -S
   docker --version ;
   docker ps -a ;
   docker network ls ;
