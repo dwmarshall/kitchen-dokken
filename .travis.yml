@@ -1,8 +1,13 @@
 rvm:
   - 2.5.1
 cache: bundler
-sudo: required
 group: edge
+dist: xenial
+os: linux
+language: ruby
+git:
+  depth: false
+  quiet: true
 
 services: docker
 
@@ -16,12 +21,14 @@ branches:
 env:
   global:
     - KITCHEN_YAML=.kitchen.yml
-    - INSTANCE=default-fedora
+    - INSTANCE=default-centos
     - CHEF_LICENSE="accept-no-persist"
 
 before_install:
+  - sudo add-apt-repository ppa:projectatomic/ppa -y
   - sudo apt-get -qq update
   - sudo apt-get install -y nmap
+  - sudo apt-get install -y podman
 
 before_script:
  - sudo nmap -p- localhost
